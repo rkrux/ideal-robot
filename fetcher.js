@@ -23,7 +23,6 @@ const fetchAllBlockTxs = async () => {
   const uniqueTxsInBlock = new Set();
   const allTxs = [];
 
-  // Fetch all data
   let startIndex = 0;
   while (startIndex < BLOCK_TXS_COUNT) {
     const paginatedTxs = await fetchPaginatedTxs(startIndex);
@@ -33,7 +32,7 @@ const fetchAllBlockTxs = async () => {
       allTxs.push({ txid: tx.txid, vin: tx.vin });
     });
     startIndex += 25;
-    await delay(3); // To avoid rate limiting errors
+    await delay(2); // To avoid rate limiting errors
   }
 
   return { uniqueTxsInBlock, allTxs };
