@@ -1,10 +1,11 @@
-import { allTxs, uniqueTxsInBlock } from './fetcher.js';
+import { fetchAllBlockTxs } from './fetcher.js';
 import {
   buildTxParentGraph,
   buildAncestorySet,
   getTopTxByAncestorySize,
 } from './ancestorySet.js';
 
+const { allTxs, uniqueTxsInBlock } = await fetchAllBlockTxs();
 const txParentGraph = buildTxParentGraph(allTxs, uniqueTxsInBlock);
 const ancestorySet = buildAncestorySet(txParentGraph, uniqueTxsInBlock);
 const top10TxByAncestorySize = getTopTxByAncestorySize(ancestorySet, 10);
