@@ -44,7 +44,7 @@ const buildAncestorySet = (txParentGraph, uniqueTxsInBlock) => {
 
   for (const txId of uniqueTxsInBlock) {
     if (ancestorySet[txId] !== undefined) {
-      // Already calculated ancestors of parentTx, dont do it again
+      // Already calculated ancestors of txId, dont do it again
       continue;
     }
     dfs(txParentGraph, txId, ancestorySet);
