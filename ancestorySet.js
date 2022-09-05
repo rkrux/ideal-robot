@@ -3,7 +3,7 @@ const buildTxParentGraph = (allTxs, uniqueTxsInBlock) => {
 
   allTxs.forEach((currentTx) => {
     currentTx.vin.forEach((parentTx) => {
-      const isParentTxInBlock = uniqueTxsInBlock.has(parentTx.txid);
+      const isParentTxInBlock = uniqueTxsInBlock.has(parentTx.txid); // All ancestors need to be in the block as well
       if (isParentTxInBlock === true) {
         // Directed graph
         const parents = graph[currentTx.txid] ?? new Set();

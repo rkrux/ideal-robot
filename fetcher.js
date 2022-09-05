@@ -32,7 +32,7 @@ const fetchAllBlockTxs = async () => {
       allTxs.push({ txid: tx.txid, vin: tx.vin });
     });
     startIndex += 25;
-    await delay(2); // To avoid rate limiting errors
+    // await delay(2); // Uncomment if rate limiting arise
   }
 
   return { uniqueTxsInBlock, allTxs };
