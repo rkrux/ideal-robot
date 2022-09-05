@@ -58,7 +58,7 @@ const getTopTxByAncestorySize = (ancestorySet, filterSize) => {
     (first, second) => {
       const firstAncestorySetSize = first[1],
         secondAncestorySetSize = second[1];
-      return secondAncestorySetSize - firstAncestorySetSize;
+      return secondAncestorySetSize - firstAncestorySetSize; // Desc order
     }
   );
   return allTxsSortedByAncestorySize.slice(0, filterSize);
