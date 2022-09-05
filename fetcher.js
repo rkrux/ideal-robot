@@ -8,14 +8,14 @@ const API_BASE_URL = `https://blockstream.info/api/block/${BLOCK_HASH}/txs`;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const fetchPaginatedTxs = async (startIndex) => {
-  console.log('Fetching transactions with startIndex', startIndex);
+  // console.log('Fetching transactions with startIndex', startIndex); // Uncomment to debug
   try {
     const response = await fetch(`${API_BASE_URL}/${startIndex}`);
     const data = await response.json();
     return data;
   } catch (err) {
     console.error(`An error occured in fetching paginated data: `, err);
-    return []; // TODO: Retry?
+    return []; // TODO: Add Retries
   }
 };
 
@@ -32,7 +32,7 @@ while (startIndex < BLOCK_TXS_COUNT) {
     allTxs.push({ txid: tx.txid, vin: tx.vin });
   });
   startIndex += 25;
-  await delay(3); // To avoid rate limiting
+  await delay(3); // To avoid rate limiting errors
 }
 
 export { uniqueTxsInBlock, allTxs };
