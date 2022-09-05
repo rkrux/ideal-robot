@@ -1,31 +1,30 @@
 import fetch from 'node-fetch';
 
-const BLOCK_HASH =
-  '000000000000000000076c036ff5119e5a5a74df77abf64203473364509f7732'; // 680000
-const BLOCK_TXS_COUNT = 2875;
-const API_BASE_URL = `https://blockstream.info/api/block/${BLOCK_HASH}/txs`;
-
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const fetchPaginatedTxs = async (startIndex) => {
-  console.log('Fetching transactions with startIndex', startIndex);
+const buildApiBaseUrl = (blockHash) =>
+  `https://blockstream.info/api/block/${blockHash}/txs`;
+
+const fetchPaginatedTxs = async (apiUrl) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/${startIndex}`);
+    const response = await fetch(apiUrl);
     const data = await response.json();
     return data;
   } catch (err) {
     console.error(`An error occured in fetching paginated data: `, err);
-    return []; // TODO: Add Retries
+    return []; // TODO: Add Retries instead of returning empty list
   }
 };
 
-const fetchAllBlockTxs = async () => {
+const fetchAllBlockTxs = async (blockHash, blockTxsCount) => {
+  const apiBaseUrl = buildApiBaseUrl(blockHash);
   const uniqueTxsInBlock = new Set();
   const allTxs = [];
 
   let startIndex = 0;
-  while (startIndex < BLOCK_TXS_COUNT) {
-    const paginatedTxs = await fetchPaginatedTxs(startIndex);
+  while (startIndex < blockTxsCount) {
+    console.log('Fetching transactions with startIndex', startIndex);
+    const paginatedTxs = await fetchPaginatedTxs(`${apiBaseUrl}/${startIndex}`);
 
     paginatedTxs.forEach((tx) => {
       uniqueTxsInBlock.add(tx.txid);
